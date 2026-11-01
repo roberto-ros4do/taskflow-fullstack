@@ -1,21 +1,21 @@
 const express = require("express"); //importa o pacote Express que é instalada pelo  npm
 const pool = require("./db"); //"importa" a conexão sql do db.js
-const bodyParser = require("body-parser");
 const app = express(); //cria a aplicação Express.
-app.use(bodyParser.json()); //Quando uma requisição chega contendo  JSON, esse middleware interpreta o corpo da requisição e disponibiliza os dados em req.body
+const bodyParser = require("body-parser");
+app.use(bodyParser.json()); //Quando uma requisição chega contendo  JSON, esse middleware interpreta o corpo da requisição e disponibiliza os dados em req.body, facilitando manipular o conteúdo do corpo da requisição
 
 
-app.use(express.static("public"));//verifica se existe os arquivos da pasta declarada e se existir disponibiliza os arquivos dessa pasta por meio de requisições HTTP(nesse caso o frontend(pasta public))
+app.use(express.static("public"));//verifica se existe os arquivos da pasta declarada e se existir disponibiliza os arquivos dessa pasta no servidor por meio de requisições HTTP(nesse caso o frontend(pasta public))
 
 app.get("/tarefas", async (req, res) => {
     try {
         const [tarefas] = await pool.query(
-            "SELECT * FROM tarefas"
-            //pool.query é equivalente ao cursor.execute do SQLITE
-            //cursor.fetchaal é o equivalente a linhas retornadas por await pool.query(sql)
+            "SELECT id, nome, TIME_FORMAT(horario, '%H:%i') AS horario, concluido FROM tarefas ORDER BY id DESC"
+            //pool.query é equivalente ao cursor.execute do SQLITE, ou seja, executa scripts SQL
+            //cursor.fetchall é o equivalente a linhas retornadas por await pool.query(sql)
             //OBS: não existe um equivalente de conexão do mysql com o sqlite pois o mysql gerencia diversas conexões ao mesmo tempo
         );
-        //Promisse: é um objeto JavaScript que representa o resultado futuro de uma operação, possui tres estados: -pendente, Fulfiled(concluida) e Rejected(Concluida com erro), uma função assincrona é uma função que retorna um promisse, e que pode ser uma tarefa demorada (como baixar dados de um servidor, ler um arquivo ou consultar um banco de dados), o await suspende a continuação dessa função assincrona enquanto espera o resultado da promisse sem bloquear o servidor, permitindo o node.js continuar efetuando outras operações
+        //Promisse: é um objeto JavaScript que representa o resultado futuro de uma operação, possui tres estados: -pendente, Fulfiled(concluida) e Rejected(Concluida com erro), uma função assincrona(async function) é uma função que retorna um promisse(pode ser uma tarefa demorada (como baixar dados de um servidor, ler um arquivo ou consultar um banco de dados)), o await suspende a continuação dessa função assincrona enquanto espera o resultado da promisse sem bloquear o servidor, permitindo o node.js continuar efetuando outras operações
 
         res.json(tarefas); //envia os dados em formato json para o front-end
 
@@ -24,11 +24,11 @@ app.get("/tarefas", async (req, res) => {
 
         res.status(500).json({
             erro: "Erro interno ao buscar tarefas"
+            //como da pra ver 500 é retornado quando a requisição possui dados inválidos
         });
     }
 });
 
-//como da pra ver 500 é retornado quando a requisição possui dados inválidos
 
 app.post("/tarefas", async (req, res) => {
     try {
@@ -52,14 +52,9 @@ app.post("/tarefas", async (req, res) => {
             [nome.trim(), horario]
         );
 
-        res.status(201).json({
-            id: resultado.insertId,
-            nome: nome.trim(),
-            horario: horario + ":00",
-            concluido: false
+        res.status(201).end();
             //OBS: status 201 é retornado quando um recurso é criado COM SUCESSO (nesse caso) a tarefa
-        });
-
+            
     } catch (erro) {
         console.error("Erro ao cadastrar tarefa:", erro);
 
@@ -70,6 +65,6 @@ app.post("/tarefas", async (req, res) => {
     }
 });
 
-app.listen(3000, () => { //inicia o servidor no localhost 300
+app.listen(3000, () => { //inicia o servidor no localhost 3000
     console.log("Servidor rodando na porta 3000");
 });
