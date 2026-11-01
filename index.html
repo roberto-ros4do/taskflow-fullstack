@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://jsdelivr.net">
+</head>
+<body>
+    <div class="container">
+            <header>
+                <h1>Lista de Tarefas</h1>
+                <p>Faça sua programação de afazeres</p>
+            </header>
+            <main>
+                <form class="adicionaTarefa" action="">
+                    <input type="text" id="nome" placeholder="Adicionar uma tarefa...">
+                    <input type="time" id="hora">
+                    <button type="submit" onclick="cadastrarTarefa(document.getElementById('nome'), document.getElementById('hora'))">Enviar</button>
+                </form>
+                <h2>Minhas tarefas</h2>
+                <form class="filtro">
+                    <button type="button" id="TODAS" onclick="filtrar(document.getElementById('TODAS'), document.getElementsByClassName('botaoAtivo'))" class="botao">Todas</button>
+                    <button type="button" id="PENDENTES" onclick="filtrar(document.getElementById('PENDENTES'), document.getElementsByClassName('botaoAtivo'))" class="botao">Pendentes</button>
+                    <button type="button" id="CONCLUÍDAS" onclick="filtrar(document.getElementById('CONCLUÍDAS'), document.getElementsByClassName('botaoAtivo'))" class="botao">Concluídas</button>
+                </form>
+                <div class="tarefas">
+                    <div class="tarefa">
+                        <div class="descricao">
+                            <input type="checkbox" name="feito" id="idexemplo">
+                            <label for="idexemplo">Revisar JavaScript</label>
+                        </div>
+                        <span class="horario">12:50</span>
+                        <button type="button" class="excluir">Excluir</button>
+                    </div>
+                </div>
+            </main>
+            <footer>
+                <p>X tarefas no total</p>
+            </footer>
+    </div>
+    <script src="main.js"></script>
+    <!--
+    <input type="submit"> -> envia o formulário
+    <button type="submit"> -> envia formulário
+    <button type="button"> -> executa uma ação sem enviar formulário automaticamente
+    <button type="reset">  -> restaura os campos do formulário
+    event.preventDefault() -> impede a ação padrão de um evento
+    formulario.reset() -> restaura os campos do formulário aos padrões iniciais do html
+    -->
+</body>
+</html>
