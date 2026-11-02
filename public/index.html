@@ -21,14 +21,14 @@
                 </form>
                 <h2>Minhas tarefas</h2>
                 <form class="filtro">
-                    <button type="button" id="TODAS" onclick="filtrar(document.getElementById('TODAS'), document.getElementsByClassName('botaoAtivo'))" class="botao">Todas</button>
-                    <button type="button" id="PENDENTES" onclick="filtrar(document.getElementById('PENDENTES'), document.getElementsByClassName('botaoAtivo'))" class="botao">Pendentes</button>
-                    <button type="button" id="CONCLUÍDAS" onclick="filtrar(document.getElementById('CONCLUÍDAS'), document.getElementsByClassName('botaoAtivo'))" class="botao">Concluídas</button>
+                    <button type="button" onclick="filtrar('todas')" data-filtro="todas" class="botaoAtivo">Todas</button>
+                    <button type="button" onclick="filtrar('pendentes')" data-filtro="pendentes" class="botao">Pendentes</button>
+                    <button type="button" onclick="filtrar('concluidas')" data-filtro="concluidas" class="botao">Concluídas</button>
                 </form>
                 <div class="tarefas">
                     <div class="tarefa">
                         <div class="descricao">
-                            <input type="checkbox" name="feito" id="idexemplo">
+                            <input type="checkbox" name="concluido" id="idexemplo">
                             <label for="idexemplo">Revisar JavaScript</label>
                         </div>
                         <span class="horario">12:50</span>
