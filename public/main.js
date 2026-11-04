@@ -76,7 +76,9 @@ async function carregarTarefas() {
 
         const lista = document.querySelector('.tarefas');
         lista.replaceChildren()
+        let numTarefas = 0
         for (const tarefa of tarefas) {
+            numTarefas++
             if (filtroAtual=='pendentes' && tarefa.concluido==1){
                 continue
             }else if (filtroAtual=='concluidas' && tarefa.concluido==0){
@@ -154,10 +156,13 @@ async function carregarTarefas() {
             novaTarefa.appendChild(excluir)
             lista.appendChild(novaTarefa)
         }
+        const footer = document.getElementById("footer")
+        footer.innerHTML = `<p>${numTarefas} tarefas no total</p>`
 
     } catch (erro) {
         console.error("Erro:", erro);
     }
+
 }
 
 carregarTarefas();
